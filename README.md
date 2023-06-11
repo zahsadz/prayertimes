@@ -1,4 +1,4 @@
 # prayertimes
 prayertimes salah salat
-#demo
+# demo
 https://zahsadz.github.io/prayertimes/
