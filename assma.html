@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>	
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="color-scheme" content="light dark">
+
+<title>أسماء الله الحسني </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-+qdLaIRZfNu4cVPK/PxJJEy0B0f3Ugv8i482AKY7gwXwhaCroABd086ybrVKTa0q" crossorigin="anonymous">
+
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100;300;400&family=Reem+Kufi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<nav class="navbar fixed-top navbar-dark bg-dark justify-content-center">
+<div class="btn-group" role="group" aria-label="Basic example">
+  <a href="index.html" data-bs-toggle="tooltip" title="مواقيت الصلاة اليوم" data-bs-placement="bottom" class="btn btn-dark"><i class="icons bi bi-alarm-fill"></i></a>
+  <a href="months.html" data-bs-toggle="tooltip" title="مواقيت الشهر" data-bs-placement="bottom" class="btn btn-dark"><i class="icons bi bi-calendar-check-fill"></i></a>
+  <a href="azkar.html" data-bs-toggle="tooltip" title="أذكار المساء والصباح" data-bs-placement="bottom" class="btn btn-dark active"><i class="icons bi bi-book"></i></a>
+  <a href="kibla.html" data-bs-toggle="tooltip" title="إتجاه القبلة" data-bs-placement="bottom" class="btn btn-dark"><i class="icons bi bi-compass"></i></a>
+  <a href="#" id="email" data-bs-toggle="tooltip" title="شارك" data-bs-placement="bottom" class="btn btn-dark"><i class="icons bi bi-share-fill"></i></a>
+  <a href="settings.html" data-bs-toggle="tooltip" title="إعدادات" data-bs-placement="bottom" class="btn btn-dark"><i class="icons bi bi-gear"></i></a>
+
+</div>
+</nav>
+
+<div class="container-fluid" id="deviceready">
+<div class="row justify-content-center">
+
+<div class="col-md-12 mt-5 mb-5 header">
+
+<div class="alert alert-success text-center mt-5" role="alert">
+  <h1 class="h4">أسماء الله الحسني </h1> 
+</div>
+		
+
+
+<p id="assma"></p>
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.1.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script  src="js/websharetop.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+<script  src="js/websharetop.js"></script>
+
+
+
+<script>
+  $(function(){ 
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+	//alert(JSON.stringify(myObj));
+	var i;
+	var out = '';
+     for(i = 0; i < myObj.names.length; i++) {
+	 
+	 var name = myObj.names[i].name;
+	 var meaning = myObj.names[i].meaning;
+
+
+
+ out += '<div class="card mb-5 border rounded text-center font-weight-bolder bg-warning"> <div class="card-body"><p class="card-text h1">'+ name+'</p><p class="card-text">'+ meaning+'</p><div class="btn-group" role="group" aria-label="share text"><button type="button" class="btn btn-danger" id="result" data-clipboard-text="'+ meaning+'"><i class="icons bi bi-share-fill"></i>نسخ</button><button type="button" class="btn btn-success" id="sharetext" data-text="'+ meaning+'"><i class="icons bi bi-share-fill"></i>شارك</button></div></div></div>';
+       }
+    document.getElementById("assma").innerHTML = out;
+  }
+};
+xmlhttp.open("GET", "azkar/names_of_allah.json", true);
+xmlhttp.send();
+
+ });
+</script>
+
+<script>
+/*document.addEventListener('deviceready', onDeviceReady, false);
+function onDeviceReady() {
+    screen.orientation.lock('portrait');
+    screen.orientation.unlock();
+}*/
+</script>
+ <script>
+  $(function(){ 
+
+    $(document).on("click", "#sharetext", function(){
+     var text = $(this).attr('data-text');
+    // alert(text);
+     if (navigator.share) { 
+     navigator.share({
+      //title: 'مواقيت الصلاة جميع بلديات دوائر و ولايات الجزائر',
+	  text: ''+text+'',
+      //url: 'https://dz-prayer.netlify.app'
+     }).then(() => {
+      console.log('Thanks for sharing!');
+     })
+    .catch(console.error);
+     } else {
+      console.log('error');
+     }
+     });
+  
+  
+    $(document).on("click", "#result", function(){
+
+      var clipboardtext = $(this).attr('data-clipboard-text');
+	  		//alert(clipboardtext);
+
+      const textCopied = ClipboardJS.copy(clipboardtext);     
+		console.log('copied!', textCopied);
+			alert('تم نسخ الذكر يمكنك لصقه ');
+	
+      });
+	  
+      /* 
+	  
+     // var btns = document.querySelectorAll('button');
+	 var btns = document.querySelectorAll('#result');
+	
+      var clipboard = new ClipboardJS(btns);
+
+      clipboard.on('success', function (e) {
+	    alert(' تم النسخ ');
+		alert(e.text);
+
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+      });
+
+      clipboard.on('error', function (e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+      }); 
+	  
+	  */
+	  
+	  });
+	
+ 
+</script>
+</body>
+</html>
