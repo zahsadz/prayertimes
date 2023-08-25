@@ -1,23 +1,13 @@
-window.onload = () => {
-	
- console.log('ok');
-
-
-}  
 
 if ("serviceWorker" in navigator) {
 	
   window.addEventListener("load", function() {
     navigator.serviceWorker
       .register("./sw.js")
-      .then(res => console.log("service worker registered"))
-      .catch(err => console.log("service worker not registered", err))
-  })
-  
+	  .then(() => { console.log('service worker registered'); })
+      .catch( err => { console.log("Error while using Web share API:"); console.log(err); })
+	  })
   }
-
-
-
 
 function niceBytes(x){
  const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -27,8 +17,6 @@ function niceBytes(x){
   }
   return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
 }
-
-
 
 if ('storage' in navigator && 'estimate' in navigator.storage) { 
     navigator.storage.estimate() 

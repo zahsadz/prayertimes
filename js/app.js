@@ -26,19 +26,20 @@
        var regionName = localStorage.getItem('regionName');	
 	   var lat = localStorage.getItem('lat'); 
        var lng = localStorage.getItem('lng');
+	   var prayerMethod = localStorage.getItem('prayerMethod');
+ 	   var asrMethod = localStorage.getItem('asrMethod');
+	   
  	   var fajr = localStorage.getItem('fajr');
  	   var dhuhr = localStorage.getItem('dhuhr');
  	   var asr = localStorage.getItem('asr');
  	   var maghrib = localStorage.getItem('maghrib');
  	   var isha = localStorage.getItem('isha');
-	   var prayerMethod = localStorage.getItem('prayerMethod');
- 	   var asrMethod = localStorage.getItem('asrMethod');
-	   var HJR_OFFSET = localStorage.getItem('HJR_OFFSET');
+	 
 
       var DateTime = luxon.DateTime;
       var Interval = luxon.Interval;
       var Duration = luxon.Duration;
-	  var local = DateTime.now();
+	  var local = DateTime.local();
       var rezoned = local.setZone(timezone);
       if (rezoned.isInDST == false) {
         var is_DST = "0"; // daylight savings time is NOT observed
@@ -47,21 +48,19 @@
           }
 	
 		update = function(){
-		var date = DateTime.now().setZone(timezone).setLocale('ar').toFormat('DDDD');
-		var datedztime = DateTime.now().setZone(timezone).setLocale('en').toFormat('HH:mm:ss');
+		var date = DateTime.local().setZone(timezone).setLocale('ar').toFormat('DDDD');
+		var datedztime = DateTime.local().setZone(timezone).setLocale('en').toFormat('HH:mm:ss');
 		document.getElementById("datetoday").innerHTML = date;
 		document.getElementById("datedztime").innerHTML = datedztime;
           };
       
 	    update();
         setInterval(update, 10);
-		
 		console.log(regionName);
-		
 	if (regionName !== null && regionName !== '' &&  regionName !== undefined) {
      
 
-	var islamic = rezoned.plus({ days: parseInt(HJR_OFFSET) }).reconfigure({ outputCalendar: "islamic" });
+	var islamic = DateTime.now().setZone(timezone).reconfigure({ outputCalendar: "islamic" });
 	var hijr = islamic.setLocale('ar').toLocaleString(DateTime.DATE_HUGE);
 	
 	document.getElementById("hijridate").innerHTML = hijr;
@@ -171,7 +170,7 @@
     var nextPrayerTimecounter = DateTime.fromJSDate(prayerTimes.timeForPrayer(next)).setZone(timezone);
   	 
 
-    var today = DateTime.now().setZone(timezone).setLocale('ar').toFormat('DDDD HH:mm:ss');
+    var today = DateTime.local().setZone(timezone).setLocale('ar').toFormat('DDDD HH:mm:ss');
 
 	var Prayerlist = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
 	var tables = ''; 
@@ -189,7 +188,7 @@
 	  document.getElementById("prayertable").innerHTML = tables;
 	  
     var timer = setInterval(function(){
-    var thours = Duration.fromObject(nextPrayerTimecounter.diff(DateTime.now().setZone(timezone)).toObject());
+    var thours = Duration.fromObject(nextPrayerTimecounter.diff(DateTime.local().setZone(timezone)).toObject());
 	   var countdown = thours.toFormat('hh:mm:ss');
 	   var counterdown = thours.toFormat('s');
 	 	   
@@ -207,7 +206,7 @@
 	
 	var alarm = '';
 	var html = '';
-	 html += '<table dir="rtl" class="table table-hover text-dark font-weight-bold ">';
+	 html += '<table dir="rtl" class="table table-hover text-dark fw-bold ">';
   
      list.forEach((x,i) => {
    

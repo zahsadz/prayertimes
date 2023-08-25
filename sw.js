@@ -1,9 +1,9 @@
-var cacheName = 'muslum-salah-pwa';
+var cacheName = 'muslum-salah-time-pwa';
 var filesToCache = [
   '/',
   '/index.html',
-  '/css/style.css',
-  '/js/main.js'
+  '/css/bootstrap.rtl.min.css',
+  '/css/style.css'
 ];
 
 // Installing Service Worker

@@ -3,10 +3,10 @@ html,body {
 	-webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
 	-webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
 	-webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
-	background: black;
-	font-family: 'Noto Kufi Arabic','Reem Kufi', sans-serif;
+	background: transparent;
+	font-family: "Noto Kufi Arabic",system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
 	font-size: 12px;
-	font-weight:200;
+	font-weight: 300;
 	height: 100vh;
 	margin: 0px;
 	padding: 0px;
@@ -64,9 +64,12 @@ html,body {
 	padding: 5px;
 	overflow: scroll;
 }
-/*
-::-webkit-scrollbar {width: 12px;height: 12px;}
-::-webkit-scrollbar-track {border: 1px solid #006400;border-radius: 10px;}
-::-webkit-scrollbar-thumb {background: yellowgreen;border-radius: 10px;}
-::-webkit-scrollbar-thumb:hover {background: #88ba1c;}
-*/
+ #result {
+   position: absolute;
+   cursor: pointer;
+   margin:0;
+   padding:0;
+   overflow-y:auto;
+   max-height:300px;
+   z-index: 9999;
+  }

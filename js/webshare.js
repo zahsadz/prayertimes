@@ -10,83 +10,44 @@ window.open(openLink,'Share This Link',winOptions); //open Popup window to share
 return false;
 }
 
-const shareemail = document.querySelector('#email');
-
-shareemail.addEventListener('click', event => {
-  if (navigator.share) { 
-   navigator.share({
-      title: 'مواقيت الصلاة',
-	  text: 'مواقيت الصلاة',
-      url: 'https://salah.netlify.app'
-    }).then(() => {
-      console.log('Thanks for sharing!');
-    })
-    .catch(console.error);
-    } else {
-		
-var pageUrl		= 'https://salah.netlify.app'; //Location of this page
-var pageTitle	= document.title; //HTML page title
-
-OpenShareUrl('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl) + '&amp;title=' + encodeURIComponent(pageTitle));
-
-  //    console.log('error');
-
-
-    }
-});
-
-
-  $("#shareprayer").on('click', function(){  
-
-   var regionName = localStorage.getItem('regionName');
-   var prayertable = document.getElementById('prayertable').innerHTML;
+ document.querySelector('#shareBtn').addEventListener('click', event => {
  
-
-   if (navigator.share) { 
-     navigator.share({
-      title: 'مواقيت الصلاة '+regionName+'',
-	//  text: ''+csv.join("\n")+'',
-	  text: ''+prayertable+'',
-     // url: 'https://salah.netlify.app'
-    }).then(() => {
-      console.log('Thanks for sharing!');
-    })
-    .catch(console.error);
-    } else {
-		
-      console.log('error');
-	  
-var pageUrl		= 'https://salah.netlify.app'; //Location of this page
-var pageTitle	= document.title; //HTML page title
-
-OpenShareUrl('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(pageUrl) + '&amp;title=' + encodeURIComponent(pageTitle));
+            // Fallback, Tries to use API only
+            // if navigator.share function is
+            // available
+            if (navigator.share) {
+                navigator.share({
  
-    }   
+                    // Title that occurs over
+                    // web share dialog
+                    title: 'مواقيت الصلاة لجميع الدول',
+ 
+                    // URL to share
+                    url: 'https://salah.netlify.app'
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch(err => {
+ 
+                    // Handle errors, if occurred
+                    console.log("Error while using Web share API:");
+                    console.log(err);
+                });
+            } else {
+ 
+        // if API not available
+        console.log("Browser doesn't support this API !");
+	var pageTitle	= document.title; //HTML page title
+   // var currentUrl = document.URL;
+    var currentUrl = 'https://salah.netlify.app';
+OpenShareUrl('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentUrl) + '&amp;title=' + encodeURIComponent(pageTitle));
+         }
+		 
+        })
+		
+
+
+ var tooltipTriggerList = [].slice.call(document.querySelectorAll('.tooltip-s'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 	
-   });
-
-  $("#copieshare").on('click', function(){  
-  
-   /* var csv = [];
-    var rows = document.querySelectorAll("table tr");
-   //merge the whole data in tabular form 
-   for(var i=0; i<rows.length; i++) {
-	var row = [], cols = rows[i].querySelectorAll("td, th");
-	for( var j=0; j<cols.length; j++)
-	row.push(cols[j].innerText);
-	csv.push(row.join(","));
-   } 
-   
-   ClipboardJS.copy(csv.join("\n"));
-   */
-   var regionName = localStorage.getItem('regionName');
-   var prayertable = document.getElementById('prayertable').innerHTML;
-
-  //alert(prayertable);
-   const textCopied = ClipboardJS.copy(prayertable);
-    console.log('copied!', textCopied);
-
- 	alert('تم نسخ أوقات الصلاة يمكنك لصقه ');
-
-	
-   });

@@ -6,10 +6,7 @@ var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
      keyboard: false
      });
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+
  
  $(function(){ 
   
@@ -63,9 +60,10 @@ $("#submit").on('click', function(event){
 			}
 			
 var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=10&namedetails=1&addressdetails=1&extratags=0&accept-language=ar&format=json';
-//var myurl = 'js/location.json';
+// var myurl = 'js/location.json';
 
 	$(".loader").show();
+    $("#search").css("background", "#FFF url(images/LoaderIcon.gif) no-repeat 165px");
 
   $.getJSON(myurl)
     .done(function(response) {
@@ -75,10 +73,12 @@ var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=
     }).fail(function(error) {
     console.log(error.status);
 	$(".loader").hide();
+	$("#search").css("background", "#FFF");
      })
     .always(function() {
     console.log( "finished" );
 	$(".loader").hide();
+	$("#search").css("background", "#FFF");
       });	  
   console.log("Was preventDefault() called: " + event.isDefaultPrevented());	
 
@@ -100,11 +100,30 @@ var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=
 	   //localStorage.setItem('timezonename',timezones);
 	   //localStorage.setItem('lat', latitude);
 	  // localStorage.setItem('lng', longitude);
+	  
 	$("#latitude").val(toFixed(latitude,5));
 	$("#longitude").val(toFixed(longitude,5));
 	$("#regionname").val(name_ar);
 	$("#timezonename").val(timezones);
-
+	 
+       var fajr = localStorage.getItem('fajr');
+ 	   var dhuhr = localStorage.getItem('dhuhr');
+ 	   var asr = localStorage.getItem('asr');
+ 	   var maghrib = localStorage.getItem('maghrib');
+ 	   var isha = localStorage.getItem('isha');
+	 
+	var fajr_id = fajr !== null && fajr !== '' &&  fajr !== undefined ? fajr : '0';
+	var dhuhr_id = dhuhr !== null && dhuhr !== '' &&  dhuhr !== undefined ? dhuhr : '0';
+	var asr_id = asr !== null && asr !== '' &&  asr !== undefined ? asr : '0';
+	var maghrib_id = maghrib !== null && maghrib !== '' &&  maghrib !== undefined ? maghrib : '0';
+	var isha_id = isha !== null && isha !== '' &&  isha !== undefined ? isha : '0';
+	  
+    $("#fajr").val(fajr_id);
+    $("#dhuhr").val(dhuhr_id);
+    $("#asr").val(asr_id);
+    $("#maghrib").val(maghrib_id);
+    $("#isha").val(isha_id);
+	
 	
 
 		   console.log(timezones);
@@ -128,9 +147,10 @@ var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=
 		 var country_code = value['address']['country_code'];
 		 var state = value['address']['state'];
 
-	    var name_ar = state !== '' &&  state !== undefined ? state : display_name;
-	
-     output +='<li data-lat="'+ lat +'" data-lng="'+ lon +'" data-name="'+ display_name +'" data-country_code="'+ country_code +'" class="list-group-item link-class"> '+display_name+'</li>';
+	    //var name_ar = state !== '' &&  state !== undefined ? state : display_name;
+	    var name_ar = value.address.municipality || value.address.village || value.address.city_district || value.address.city || value.address.town || value.address.state;
+
+     output +='<li data-lat="'+ lat +'" data-lng="'+ lon +'" data-name="'+ name_ar +'" data-country_code="'+ country_code +'" class="list-group-item list-group-item-warning"> '+name_ar+'</li>';
     
          });   
 	  output += '';
@@ -141,20 +161,20 @@ var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=
   
     $("#btn_btn_update").click(function (event) {
 			   // event.preventDefault();	
-		var proceed = true;		
+		var proceed = true;	
+		
 	   var regionName = $('#regionname').val();
        var lat = $('#latitude').val();
        var lng = $('#longitude').val();
 	   var timezonename = $("#timezonename").val();
+       var prayerMethod = $("#prayerMethod").val();
+       var asrMethod = $("#asrMethod").val();
 	   
 	   var fajr = $("#fajr").val();
 	   var dhuhr = $("#dhuhr").val();
 	   var asr = $("#asr").val();
 	   var maghrib = $("#maghrib").val();
 	   var isha = $("#isha").val();
-       var HJR_OFFSET = $("#HJR_OFFSET").val();
-       var prayerMethod = $("#prayerMethod").val();
-       var asrMethod = $("#asrMethod").val();
 	   
 	var required = $('input,select').filter('[required]:visible');
 		 console.log(required);
@@ -189,15 +209,14 @@ var myurl = 'https://nominatim.openstreetmap.org/search?q='+searchField+'&limit=
 	   localStorage.setItem('timezonename', timezonename);
 	   localStorage.setItem('lat', lat);
 	   localStorage.setItem('lng', lng);
-	   
+	   localStorage.setItem('prayerMethod', prayerMethod);
+	   localStorage.setItem('asrMethod', asrMethod);
+	  
 	   localStorage.setItem('fajr', fajr);
 	   localStorage.setItem('dhuhr', dhuhr);
 	   localStorage.setItem('asr', asr);
 	   localStorage.setItem('maghrib', maghrib);
 	   localStorage.setItem('isha', isha);
-	   localStorage.setItem('HJR_OFFSET', HJR_OFFSET);
-	   localStorage.setItem('prayerMethod', prayerMethod);
-	   localStorage.setItem('asrMethod', asrMethod);
 
 		//$('#exampleModal').modal('hide');
             myModal.hide();
